@@ -6,14 +6,11 @@ import {
     Image,
     Text,
     Heading,
-    Button,
     Flex,
     IconButton,
     Tabs,
     TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
+    Tab
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
