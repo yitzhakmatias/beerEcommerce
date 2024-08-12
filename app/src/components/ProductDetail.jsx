@@ -7,19 +7,19 @@ import {
     Text,
     Heading,
     Flex,
-    IconButton,
+    Button,
     Tabs,
     TabList,
-    Tab
+    Tab,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 function ProductDetail() {
-    const { id, brand } = useParams();
-    const navigate = useNavigate(); // For back button navigation
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [stock, setStock] = useState({});
-    const [selectedSku, setSelectedSku] = useState(null); // Track the selected SKU
+    const [selectedSku, setSelectedSku] = useState(null);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/products`)
@@ -27,7 +27,7 @@ function ProductDetail() {
                 const product = response.data.find(p => p.id === parseInt(id));
                 setProduct(product);
                 if (product && product.skus.length > 0) {
-                    setSelectedSku(product.skus[0].code); // Default to the first SKU
+                    setSelectedSku(product.skus[0].code);
                 }
             })
             .catch(error => alert(error.message));
@@ -35,17 +35,13 @@ function ProductDetail() {
 
     useEffect(() => {
         if (product) {
-            const interval = setInterval(() => {
-                product.skus.forEach(sku => {
-                    axios.get(`${process.env.REACT_APP_API_URL}/api/stock-price/${sku.code}`)
-                        .then(response => {
-                            setStock(prevState => ({ ...prevState, [sku.code]: response.data }));
-                        })
-                        .catch(error => alert(error.message));
-                });
-            }, 5000);
-
-            return () => clearInterval(interval);
+            product.skus.forEach(sku => {
+                axios.get(`${process.env.REACT_APP_API_URL}/api/stock-price/${sku.code}`)
+                    .then(response => {
+                        setStock(prevState => ({ ...prevState, [sku.code]: response.data }));
+                    })
+                    .catch(error => alert(error.message));
+            });
         }
     }, [product]);
 
@@ -54,27 +50,27 @@ function ProductDetail() {
     const currentStock = stock[selectedSku] || {};
 
     return (
-        <Box p={4} bg="white" borderRadius="md" boxShadow="md">
-            {/* Top Container with Back Button and Detail Heading */}
-            <Flex justifyContent="space-between" alignItems="center" mb={4}>
-                <IconButton
-                    icon={<ArrowBackIcon />}
-                    onClick={() => navigate(-1)}
-                    aria-label="Go back"
-                />
-                <Heading as="h1" textAlign="center" flex="1">Detail</Heading>
+        <Box p={4}>
+            <Flex alignItems="center" mb={4}>
+                <Button onClick={() => navigate(-1)} bg="transparent" _hover={{ bg: "transparent" }} mr={4}>
+                    <ArrowBackIcon w={6} h={6} />
+                </Button>
+                <Heading as="h1" size="md">Detail</Heading>
             </Flex>
 
-            {/* Centered Image */}
-            <Box display="flex" justifyContent="center" mb={4}>
-                <Image src={product.image} alt={product.name} height="240px" objectFit="cover" />
+            <Box display="flex" justifyContent="center" mb={6}>
+                <Image
+                    src={product.image}
+                    alt={product.name}
+                    height="240px"
+                    objectFit="contain"
+                />
             </Box>
 
-            {/* Bottom Card with Product Details */}
-            <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
-                <Flex justifyContent="space-between" alignItems="center" mb={2}>
-                    <Text fontSize="lg" fontWeight="bold">{product.name}</Text>
-                    <Text fontSize="lg" color="green.600" fontWeight="bold">
+            <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
+                <Flex justifyContent="space-between" alignItems="center" mb={4}>
+                    <Text fontSize="xl" fontWeight="bold">{product.name}</Text>
+                    <Text fontSize="xl" color="orange.400" fontWeight="bold">
                         ${currentStock.price ? (currentStock.price / 100).toFixed(2) : 'N/A'}
                     </Text>
                 </Flex>
@@ -84,16 +80,37 @@ function ProductDetail() {
                     <Text>Stock: {currentStock.stock || 'N/A'}</Text>
                 </Flex>
 
+                <Text mb={4}>Description</Text>
                 <Text mb={4}>{product.information}</Text>
 
-                {/* SKU Tabs */}
-                <Tabs onChange={(index) => setSelectedSku(product.skus[index].code)} mb={4}>
+                <Tabs variant="unstyled" onChange={(index) => setSelectedSku(product.skus[index].code)} mb={4}>
                     <TabList>
-                        {product.skus.map((sku) => (
-                            <Tab key={sku.code}>{sku.name}</Tab>
+                        {product.skus.map(sku => (
+                            <Tab
+                                key={sku.code}
+                                bg={selectedSku === sku.code ? "orange.400" : "gray.200"}
+                                color={selectedSku === sku.code ? "white" : "black"}
+                                borderRadius="full"
+                                px={4}
+                                py={2}
+                                _selected={{ color: "white", bg: "orange.400" }}
+                            >
+                                {sku.name}
+                            </Tab>
                         ))}
                     </TabList>
                 </Tabs>
+
+                <Button
+                    width="full"
+                    mt={4}
+                    bg="orange.400"
+                    color="white"
+                    size="lg"
+                    _hover={{ bg: "orange.500" }}
+                >
+                    Add to cart
+                </Button>
             </Box>
         </Box>
     );
