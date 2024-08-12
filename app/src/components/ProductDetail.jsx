@@ -20,6 +20,7 @@ function ProductDetail() {
     const [product, setProduct] = useState(null);
     const [stock, setStock] = useState({});
     const [selectedSku, setSelectedSku] = useState(null);
+    const [showFullDescription, setShowFullDescription] = useState(false);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/products`)
@@ -49,6 +50,8 @@ function ProductDetail() {
 
     const currentStock = stock[selectedSku] || {};
 
+    const truncatedDescription = product.information.slice(0, 100) + '...';
+
     return (
         <Box p={4}>
             <Flex alignItems="center" mb={4}>
@@ -68,23 +71,35 @@ function ProductDetail() {
             </Box>
 
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-                <Flex justifyContent="space-between" alignItems="center" mb={4}>
+                <Flex justifyContent="space-between" alignItems="center" mb={2}>
                     <Text fontSize="xl" fontWeight="bold">{product.brand}</Text>
                     <Text fontSize="xl" color="orange.400" fontWeight="bold">
                         ${currentStock.price ? (currentStock.price / 100).toFixed(2) : 'N/A'}
                     </Text>
                 </Flex>
 
-                <Flex justifyContent="space-between" alignItems="center" mb={4}>
-                    <Text>Origin: {product.origin}</Text>
-                    <Text>Stock: {currentStock.stock || 'N/A'}</Text>
+                <Flex alignItems="center" mb={4}>
+                    <Text fontSize="sm" color="#969696" mr={2}>Origin: {product.origin}</Text>
+                    <Text fontSize="sm" color="#969696">| Stock: {currentStock.stock || 'N/A'}</Text>
                 </Flex>
 
-                <Text mb={4}>Description</Text>
-                <Text mb={4}>{product.information}</Text>
+                <Text fontSize="md" fontWeight="bold" mb={2}>Description</Text>
+                <Text fontSize="sm" color="#969696" lineHeight="24px" mb={4}>
+                    {showFullDescription ? product.information : truncatedDescription}
+                    {!showFullDescription && (
+                        <Button
+                            variant="link"
+                            color="orange.400"
+                            fontWeight="bold"
+                            onClick={() => setShowFullDescription(true)}
+                        >
+                            Read more
+                        </Button>
+                    )}
+                </Text>
 
                 <Tabs variant="unstyled" onChange={(index) => setSelectedSku(product.skus[index].code)} mb={4}>
-                    <TabList>
+                    <TabList >
                         {product.skus.map(sku => (
                             <Tab
                                 key={sku.code}
@@ -94,6 +109,7 @@ function ProductDetail() {
                                 px={4}
                                 py={2}
                                 _selected={{ color: "white", bg: "orange.400" }}
+                                mx={1}  // Add spacing between tabs
                             >
                                 {sku.name}
                             </Tab>
