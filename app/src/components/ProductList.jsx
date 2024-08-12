@@ -6,9 +6,10 @@ import {
     Image,
     Text,
     Grid,
-    Button,
     Flex,
+    IconButton,
 } from '@chakra-ui/react';
+import {AddIcon} from "@chakra-ui/icons";
 
 function ProductList() {
     const [products, setProducts] = useState([]);
@@ -20,51 +21,54 @@ function ProductList() {
     }, []);
 
     return (
-        <Box>
-            <Text as="h1" textAlign="left" mb={8} fontSize="x-large" fontWeight="bold">Welcome Back!</Text>
-            <Text as="h1" textAlign="left" mb={8} fontSize="large" fontWeight="bold">Our Products</Text>
-            <Grid templateColumns="repeat(auto-fit, minmax(155px, 1fr))" gap={6} justifyContent="center">
+
+
+        <Box p={4}>
+            <Text as="h1" textAlign="left" fontSize="2xl" fontWeight="bold" mb={2}>
+                Hi Mr. Michael,
+            </Text>
+            <Text as="h2" textAlign="left" fontSize="3xl" fontWeight="bold" mb={4}>
+                Welcome Back!
+            </Text>
+            <Text as="h3" textAlign="left" fontSize="xl" fontWeight="bold" mb={4}>
+                Our Products
+            </Text>
+            <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                 {products.map(product => (
                     <Link to={`/product/${product.id}/${product.brand.toLowerCase().replace(/ /g, '-')}`} key={product.id}>
                         <Box
                             bg="white"
-                            borderRadius="md"
+                            borderRadius="xl"
                             boxShadow="md"
-                            overflow="hidden"
-                            p={2}
+                            p={4}
+                            position="relative"
                             textAlign="center"
-                            width="155px"
-                            height="195px"
-                            display="flex"
-                            flexDirection="column"
-                            justifyContent="space-between"
-                            alignItems="center"
+                            _hover={{ transform: 'scale(1.03)', transition: '0.2s' }}
                         >
-                            {/* Product Name */}
-                            <Text mb={2} fontFamily="DM Sans" fontSize="16px" lineHeight="16px" textAlign="left" fontWeight="bold">{product.brand}</Text>
-
-                            {/* Image */}
-                            <Box
-                                width="122px"
-                                height="122px"
-                                overflow="hidden"
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                mb={2}
-                            >
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    height="122px"
-                                    objectFit="contain"
+                            <Text fontWeight="bold" fontSize="md" mb={2} noOfLines={1}>
+                                {product.brand}
+                            </Text>
+                            <Image
+                                src={product.image}
+                                alt={product.name}
+                                boxSize="100px"
+                                objectFit="contain"
+                                mx="auto"
+                                mb={3}
+                            />
+                            <Flex justifyContent="space-between" alignItems="center" mt={2}>
+                                <Text fontWeight="bold" fontSize="lg" color="black">
+                                    ${product.price?.toFixed(2)}
+                                </Text>
+                                <IconButton
+                                    size="sm"
+                                    bg="orange.400"
+                                    color="white"
+                                    borderRadius="full"
+                                    _hover={{ bg: "orange.500" }}
+                                    icon={<AddIcon />}
+                                    aria-label="Add to cart"
                                 />
-                            </Box>
-
-                            {/* Bottom section with Price and Plus button */}
-                            <Flex width="100%" justifyContent="space-between" alignItems="center" px={2}>
-                                <Text color="black" fontWeight="bold">${product.price?.toFixed(2)}</Text>
-                                <Button size="sm" colorScheme="orange">+</Button>
                             </Flex>
                         </Box>
                     </Link>
