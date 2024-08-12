@@ -97,10 +97,9 @@ function ProductDetail() {
                         </Button>
                     )}
                 </Text>
-
                 <Tabs variant="unstyled" onChange={(index) => setSelectedSku(product.skus[index].code)} mb={4}>
                     <TabList >
-                        {product.skus.map(sku => (
+                        {product && product.skus.map(sku => (
                             <Tab
                                 key={sku.code}
                                 bg={selectedSku === sku.code ? "orange.400" : "gray.200"}
