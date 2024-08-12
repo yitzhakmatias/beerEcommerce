@@ -24,7 +24,7 @@ function ProductList() {
 
 
         <Box p={4}>
-            <Text as="h1" textAlign="left" fontSize="2xl" fontWeight="bold" mb={2}>
+            <Text as="h1" textAlign="left" fontSize="1xl"  mb={2}>
                 Hi Mr. Michael,
             </Text>
             <Text as="h2" textAlign="left" fontSize="3xl" fontWeight="bold" mb={4}>
@@ -61,12 +61,16 @@ function ProductList() {
                                     ${product.price?.toFixed(2)}
                                 </Text>
                                 <IconButton
-                                    size="sm"
+                                    icon={<AddIcon />}
+                                    size="md"
                                     bg="orange.400"
                                     color="white"
                                     borderRadius="full"
+                                    position="absolute"
+                                    bottom="12px"
+                                    right="12px"
                                     _hover={{ bg: "orange.500" }}
-                                    icon={<AddIcon />}
+                                    _active={{ bg: "orange.600" }}
                                     aria-label="Add to cart"
                                 />
                             </Flex>

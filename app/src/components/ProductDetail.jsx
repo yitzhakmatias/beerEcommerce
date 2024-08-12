@@ -69,7 +69,7 @@ function ProductDetail() {
 
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
                 <Flex justifyContent="space-between" alignItems="center" mb={4}>
-                    <Text fontSize="xl" fontWeight="bold">{product.name}</Text>
+                    <Text fontSize="xl" fontWeight="bold">{product.brand}</Text>
                     <Text fontSize="xl" color="orange.400" fontWeight="bold">
                         ${currentStock.price ? (currentStock.price / 100).toFixed(2) : 'N/A'}
                     </Text>
