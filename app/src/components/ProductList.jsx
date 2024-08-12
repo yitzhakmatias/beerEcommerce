@@ -38,12 +38,12 @@ function ProductList() {
                     <Link to={`/product/${product.id}/${product.brand.toLowerCase().replace(/ /g, '-')}`} key={product.id}>
                         <Box
                             bg="white"
-                            borderRadius="xl"
-                            boxShadow="md"
+                            borderRadius="lg"
+                            boxShadow="lg"
                             p={4}
-                            position="relative"
                             textAlign="center"
-                            _hover={{ transform: 'scale(1.03)', transition: '0.2s' }}
+                            position="relative"
+                            _hover={{ transform: 'scale(1.02)', transition: '0.3s' }}
                         >
                             <Text fontWeight="bold" fontSize="md" mb={2} noOfLines={1}>
                                 {product.brand}
