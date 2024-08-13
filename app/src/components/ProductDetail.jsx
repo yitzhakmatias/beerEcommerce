@@ -102,13 +102,15 @@ function ProductDetail() {
                         {product && product.skus.map(sku => (
                             <Tab
                                 key={sku.code}
-                                bg={selectedSku === sku.code ? "orange.400" : "gray.200"}
-                                color={selectedSku === sku.code ? "white" : "black"}
+                                bg="transparent"
+                                color={selectedSku === sku.code ? "#FF9F24" : "#969696"}
                                 borderRadius="full"
+                                border={selectedSku === sku.code ? "0.5px solid #FF9F24" : "0.5px solid #969696"}
                                 px={4}
                                 py={2}
-                                _selected={{ color: "white", bg: "orange.400" }}
-                                _hover={{ bg: "gray.200" }}
+                                fontWeight="sm"
+                                _selected={{ color: "#FF9F24", bg: "transparent", border: "2px solid #FF9F24" }}
+                                _hover={{ bg: "transparent" }}
                                 mx={1}  // Add spacing between tabs
                             >
                                 {sku.name}
