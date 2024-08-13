@@ -108,6 +108,7 @@ function ProductDetail() {
                                 px={4}
                                 py={2}
                                 _selected={{ color: "white", bg: "orange.400" }}
+                                _hover={{ bg: "gray.200" }}
                                 mx={1}  // Add spacing between tabs
                             >
                                 {sku.name}
