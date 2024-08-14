@@ -1,7 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const products = require('./data/products');
-const stockPrice = require('./data/stock-price');
 const errorHandler = require("./middleware/errorHandler");
 const productRoutes = require('./routes/productRoutes');
 const stockRoutes = require('./routes/stockRoutes');
