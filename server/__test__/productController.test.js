@@ -1,7 +1,6 @@
 const { getProducts } = require('../controllers/productController');
 const products = require('../data/products');
 const { getProductWithPrice } = require('../utils/priceHelper');
-const {jest} = require("globals");
 
 jest.mock('../utils/priceHelper', () => ({
     getProductWithPrice: jest.fn(),
