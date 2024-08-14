@@ -1,4 +1,4 @@
-# Backend for Beer E-commerce Web-App
+# Backend for Beer E-commerce Server
 
 ## Installation
 ```bash
